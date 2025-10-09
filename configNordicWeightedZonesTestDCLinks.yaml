@@ -842,13 +842,14 @@ clustering:
     level: 1
     
   focus_weights:  
-    'DE': 0.02
-    'NL': 0.02
-    'PL': 0.02
-    'LT': 0.02
-    'EE': 0.02
-    'DK': 0.02
-    'GB': 0.02
+    'DE': 0.01
+    'NL': 0.01
+    'PL': 0.01
+    'LT': 0.01
+    'EE': 0.01
+    'DK': 0.01
+    'GB': 0.01
+    'FI': 0.15
 
   copperplate_regions:
 
