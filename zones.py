@@ -35,5 +35,6 @@ def assign_zones(n, zones_path="bidding_zones.geojson"):
     n.generators["zone"] = n.generators["bus"].map(n.buses["zone"])
     n.storage_units["zone"] = n.storage_units["bus"].map(n.buses["zone"])
     n.loads["zone"] = n.loads["bus"].map(n.buses["zone"])
+    n.lines["zone"] = n.lines["bus"].map(n.buses["zone"])
     
     return n
