@@ -32,9 +32,20 @@ def assign_zones(n, zones_path="bidding_zones.geojson"):
 
     # write back + propagate
     n.buses["zone"] = z.values
-    n.generators["zone"] = n.generators["bus"].map(n.buses["zone"])
-    n.storage_units["zone"] = n.storage_units["bus"].map(n.buses["zone"])
-    n.loads["zone"] = n.loads["bus"].map(n.buses["zone"])
-    n.lines["zone"] = n.lines["bus"].map(n.buses["zone"])
+    # map helper to avoid KeyError when a component lacks a 'bus' column
+    def _map_component_zone(component_df, bus_column="bus"):
+        if component_df is None:
+            return
+        if getattr(component_df, "empty", True):
+            return
+        if bus_column in component_df.columns:
+            component_df["zone"] = component_df[bus_column].map(n.buses["zone"])  # type: ignore[index]
+
+    _map_component_zone(n.generators, "bus")
+    _map_component_zone(n.storage_units, "bus")
+    _map_component_zone(n.loads, "bus")
+    # also map for stores if present in the network
+    if hasattr(n, "stores"):
+        _map_component_zone(n.stores, "bus")
     
     return n
