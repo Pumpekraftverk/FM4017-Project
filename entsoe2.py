@@ -13,8 +13,8 @@ AC_BORDERS = [
 ]
 DC_BORDERS = [
     ("SE_3","FI"), ("NO_2","DK_1"), ("NO_2","NL"), ("NO_2","DE_LU"), ("NO_2","GB"),
-    ("DK_1","NL"), ("DK_1","GB"), ("DK_2","DE_LU"),
-    ("SE_4","DE_LU"), ("SE_4","LT"), ("SE_4","PL"), ("FI","EE"),
+    ("DK_1","NL"), ("DK_1","GB"), ("DK_2","DE_LU"), ("DK_1", "SE_3"),
+    ("SE_4","DE_LU"), ("SE_4","LT"), ("SE_4","PL"), ("FI","EE"), ("SE_3","SE_4"), ("DK_1", "DK_2")
 ]
 
 def fetch_entsoe_data(start_date, timezone="Europe/Oslo", api_key=None,
