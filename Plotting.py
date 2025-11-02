@@ -5,13 +5,18 @@ from shapely.geometry import Point
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import geopandas as gpd
-def plot_network_with_loadings(n, snapshot_number=17):
+def plot_network_with_loadings(n, snapshot_number=17, normalization_val_lines = 5000):
     snap = n.snapshots[snapshot_number]
 
     # AC line loading
     p0_lines = n.lines_t.p0.loc[snap]
     s_nom_lines = n.lines.s_nom.replace(0, np.nan)
     loading_lines = np.abs(p0_lines) / s_nom_lines * 100
+
+    # Cap line capacities at 5000 MW for visualization scaling
+    capped_s_nom = s_nom_lines.clip(upper=normalization_val_lines)
+
+
 
     # DC link loading
     p0_links = n.links_t.p0.loc[snap]
@@ -36,17 +41,21 @@ def plot_network_with_loadings(n, snapshot_number=17):
     )
 
     fig, ax = plt.subplots(
-        figsize=(12, 10),
+        figsize=(18, 14),
         subplot_kw={"projection": ccrs.PlateCarree()}
     )
+    # Normalize thickness between 0.5 and 5
+    # Normalize thickness between 0.5 and 5
+    line_widths = 0.5 + 4.5 * (capped_s_nom / capped_s_nom.max())
+    link_widths = 0.5 + 4.5 * (p_nom_links / p_nom_links.max())
 
     n.plot(
         ax=ax,
         bus_colors="gray",
         line_colors=line_colors,
-        line_widths=2.0,
+        line_widths=line_widths,
         link_colors=link_colors,
-        link_widths=3.5,
+        link_widths=link_widths,
         title=f"AC & DC Loading ({snap})"
     )
 
@@ -131,10 +140,14 @@ def plot_network_with_loadings(n, snapshot_number=17):
     cbar_ac = plt.colorbar(sm_ac, ax=ax, fraction=0.046, pad=0.04)
     cbar_ac.set_label("AC line loading [%]")
 
+
     sm_dc = plt.cm.ScalarMappable(cmap=cmap_dc, norm=norm_dc)
     sm_dc._A = []
-    cbar_dc = plt.colorbar(sm_dc, ax=ax, fraction=0.046, pad=0.08)
+    cbar_dc = plt.colorbar(sm_dc, ax=ax, fraction=0.046, pad=0.12)  # increased pad
     cbar_dc.set_label("HVDC link loading [%]")
+
+    plt.tight_layout(pad=3.0)
+
 
     plt.show()
     return

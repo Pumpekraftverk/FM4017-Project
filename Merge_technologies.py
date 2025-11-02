@@ -4,7 +4,7 @@ import pandas as pd
 
 
 
-def merge_technologies(gens_df):
+def merge_technologies(gens_df, print_what_is_done = False):
     gens_df_sum_before = gens_df.sum(axis=1)
     # ENTSO-E technologies that should be aggregated into "Other"
     other_sources = [
@@ -14,11 +14,11 @@ def merge_technologies(gens_df):
         "Other renewable",
         "Fossil Oil"
     ]
-
-    print("Before merge:")
-    print(f"Shape: {gens_df.shape}")
-    print(f"Number of zones: {len(gens_df.columns.get_level_values('Zone').unique())}")
-    print(f"Technologies for FI before: {gens_df['FI'].columns.tolist()}")
+    if print_what_is_done == True:
+        print("Before merge:")
+        print(f"Shape: {gens_df.shape}")
+        print(f"Number of zones: {len(gens_df.columns.get_level_values('Zone').unique())}")
+        print(f"Technologies for FI before: {gens_df['FI'].columns.tolist()}")
 
     # Make sure "Other" exists for each zone
     zones = gens_df.columns.get_level_values("Zone").unique()
@@ -37,8 +37,8 @@ def merge_technologies(gens_df):
 
     # Re-sort columns to keep order tidy
     gens_df = gens_df.sort_index(axis=1)
-
-    print("\nAfter merge:")
-    print(f"Shape: {gens_df.shape}")
-    print(f"Technologies for FI after: {gens_df['FI'].columns.tolist()}")
-    return gens_df
+    if print_what_is_done == True:
+        print("\nAfter merge:")
+        print(f"Shape: {gens_df.shape}")
+        print(f"Technologies for FI after: {gens_df['FI'].columns.tolist()}")
+    return 
