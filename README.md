@@ -10,4 +10,9 @@ This is a first iteration, so bugs should be expected.
 Known bugs at this time is:
 - Not all production gets distributed as some zones lack the required generator carrier(s). 
 - 
-- 
+
+
+
+Environment setup:
+The setup should be done as described in: https://pypsa-eur.readthedocs.io/en/latest/installation.html
+This ensures the user has all required packages.  
