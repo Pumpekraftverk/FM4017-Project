@@ -56,7 +56,7 @@ def plot_network_with_loadings(n, snapshot_number=17, normalization_val_lines = 
         line_widths=line_widths,
         link_colors=link_colors,
         link_widths=link_widths,
-        title=f"AC & DC Loading ({snap})"
+        title=f"Resulting loading [%] and power flow direction after lpf for date: ({snap})"
     )
 
     # Load and plot bidding zones boundaries
@@ -150,4 +150,34 @@ def plot_network_with_loadings(n, snapshot_number=17, normalization_val_lines = 
 
 
     plt.show()
+    return
+
+
+
+def plot_network_simple(n):
+    """
+    Plot network lines (AC + DC) and overlay bidding zones.
+    No arrows, no loading, no colorbars.
+    """
+
+    # ✅ Fixed projection: use correct map extent and coastlines for lon/lat data
+    fig, ax = plt.subplots(
+        figsize=(12, 10),
+        subplot_kw={"projection": ccrs.PlateCarree()}
+    )
+
+    # Optional but prevents "weird" stretched appearance
+    ax.set_extent([-25, 45, 35, 72], crs=ccrs.PlateCarree())
+    ax.coastlines(resolution="50m", linewidth=0.8)
+
+    # --- Basic network plot ---
+    n.plot(ax=ax, title="Network and Bidding Zones")
+
+    # --- Plot bidding zones (GeoJSON) ---
+    zones_gdf = gpd.read_file("bidding_zones.geojson")
+    zones_gdf.plot(ax=ax, edgecolor="black", facecolor="none", linewidth=1)
+
+    plt.tight_layout(pad=3.0)
+    plt.show()
+
     return

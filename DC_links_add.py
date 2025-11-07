@@ -37,7 +37,7 @@ def DC_links_add(n, df_links_path=r"links_needed.csv"):
             bus1=row["bus1"],
             p_nom=row.get("p_nom",0),
             efficiency=row.get("efficiency",1),
-            length=row.get("length", None),
+            length=row.get("length", None)/1000,
             carrier='DC'
         )
     return n

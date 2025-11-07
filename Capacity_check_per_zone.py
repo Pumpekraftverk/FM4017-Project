@@ -46,4 +46,4 @@ def capacity_check_per_zone(n):
 
     print("\nStorage units capacity (MW) by zone and technology:")
     print(stor_cap)
-    return
+    return gen_cap, stor_cap
