@@ -5,7 +5,8 @@ from shapely.geometry import Point
 
 def add_slack_generators(n, nordic_slack_bus = 'SE1 16', nordic_slack_name = f"slack_Forsmark"):
     # Coordinatees to buses is found in OSM as the GPS coordinates to static inverter plants related to the DC links
-
+    n.add("Carrier", "other")
+    n.add("Carrier", "slack")
     add_countries = {
         "DE": {"name": "Germany", "y": 54.07611776227856, "x": 10.02805057158303},
         "NL": {"name": "Netherlands", "y": 53.434444, "x": 6.865833},
@@ -39,6 +40,8 @@ def add_slack_generators(n, nordic_slack_bus = 'SE1 16', nordic_slack_name = f"s
     n.add("Generator",
             name = nordic_slack_name,
             bus = nordic_slack_bus,
+            p_nom=1e6,
+            marginal_cost=200,
             carrier = "slack",
             control = "Slack")
     print("Added {} to Nordic area at bus {}".format(nordic_slack_name, nordic_slack_bus))
