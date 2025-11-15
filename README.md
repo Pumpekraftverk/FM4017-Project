@@ -10,4 +10,8 @@ This is a first iteration, so bugs should be expected.
 Known bugs at this time is:
 - Not all production gets distributed as some zones lack the required generator carrier(s). 
 - 
+
+
+Limitations of the model
+- Only LPF is viable.
 - 
